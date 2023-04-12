@@ -355,7 +355,7 @@ const Sidebar = () => {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                    <span className="sr-only">Open user menu</span>
+                    <span className="sr-only">Open User menu</span>
                     <img
                       className="h-8 w-8 rounded-full bg-gray-50"
                       src={UserIcon}
