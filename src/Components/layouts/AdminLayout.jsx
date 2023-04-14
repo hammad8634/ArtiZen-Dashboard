@@ -23,13 +23,13 @@ import {
   useNavigate,
 } from "react-router-dom";
 import UserIcon from "../../images/userIcon.png";
-import BuyerTable from "./buyerTable";
-import ChatPage from "./chatPage";
-import ProductTable from "./productTable";
-import SellerTable from "./sellerTable";
-import StoreTable from "./storeTable";
+// import BuyerTable from "./buyerTable";
+// import ChatPage from "./chatPage";
+// import ProductTable from "./productTable";
+// import SellerTable from "./sellerTable";
+// import StoreTable from "./storeTable";
 
-const Sidebar = ({ children }) => {
+const AdminLayout = (props) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   /*Above Code*/
@@ -461,7 +461,7 @@ const Sidebar = ({ children }) => {
           </div>
 
           <main className="py-1">
-            <div className="px-4 sm:px-6 lg:px-1">{children}</div>
+            <div className="px-4 sm:px-6 lg:px-1">{props.children}</div>
           </main>
         </div>
       </div>
@@ -469,4 +469,4 @@ const Sidebar = ({ children }) => {
   );
 };
 
-export default Sidebar;
+export default AdminLayout;
