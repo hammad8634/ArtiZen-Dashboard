@@ -9,10 +9,12 @@ import {
 import {
   Bars3Icon,
   BellIcon,
+  BuildingStorefrontIcon,
   ChatBubbleBottomCenterTextIcon,
   Cog6ToothIcon,
   FolderIcon,
   HomeIcon,
+  ShoppingCartIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -32,40 +34,16 @@ import UserIcon from "../../images/userIcon.png";
 const AdminLayout = (props) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  /*Above Code*/
-
-  // const router = createBrowserRouter([
-  //   {
-  //     path: "/dashboard",
-  //     element: <div>Hello world!</div>,
-  //   },
-  //   {
-  //     path: "/buyerTable",
-  //     element: <BuyerTable />,
-  //   },
-  //   {
-  //     path: "/sellerTable",
-  //     element: <SellerTable />,
-  //   },
-  //   {
-  //     path: "/productstable",
-  //     element: <ProductTable />,
-  //   },
-  //   {
-  //     path: "/storeTable",
-  //     element: <StoreTable />,
-  //   },
-  //   {
-  //     path: "/chatPage",
-  //     element: <ChatPage />,
-  //   },
-  // ]);
-
   const [navigation, setNavigation] = useState([
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
     { name: "Buyers", href: "/buyerTable", icon: UsersIcon, current: false },
     { name: "Sellers", href: "/sellerTable", icon: UsersIcon, current: false },
-    { name: "Stores", href: "/storeTable", icon: UsersIcon, current: false },
+    {
+      name: "Stores",
+      href: "/storeTable",
+      icon: BuildingStorefrontIcon,
+      current: false,
+    },
     {
       name: "Chats",
       href: "/chatPage",
@@ -77,6 +55,13 @@ const AdminLayout = (props) => {
       name: "Products",
       href: "/productstable",
       icon: FolderIcon,
+      current: false,
+    },
+    {
+      name: "Orders",
+      href: "/orderPage",
+      icon: ShoppingCartIcon,
+
       current: false,
     },
   ]);
