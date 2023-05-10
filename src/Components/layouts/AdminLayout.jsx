@@ -18,7 +18,7 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -32,8 +32,18 @@ import UserIcon from "../../images/userIcon.png";
 // import StoreTable from "./storeTable";
 
 const AdminLayout = (props) => {
+  const parsedUserData = JSON.parse(localStorage.getItem("user"));
+  const role = parsedUserData && parsedUserData.data.role;
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(`User is: --- ${user}`);
+    if (user && user.status === "success") {
+      setLoggedInUser(user.data.name);
+      console.log("User Name: " + user.data.name);
+    }
+  }, []);
   const [navigation, setNavigation] = useState([
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
     { name: "Buyers", href: "/buyerTable", icon: UsersIcon, current: false },
@@ -44,13 +54,13 @@ const AdminLayout = (props) => {
       icon: BuildingStorefrontIcon,
       current: false,
     },
-    {
-      name: "Chats",
-      href: "/chatPage",
-      icon: ChatBubbleBottomCenterTextIcon,
+    // {
+    //   name: "Chats",
+    //   href: "/chatPage",
+    //   icon: ChatBubbleBottomCenterTextIcon,
 
-      current: false,
-    },
+    //   current: false,
+    // },
     {
       name: "Products",
       href: "/productstable",
@@ -65,10 +75,10 @@ const AdminLayout = (props) => {
       current: false,
     },
   ]);
-  const teams = [
-    { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-    { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  ];
+  // const teams = [
+  //   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
+  //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+  // ];
   const userNavigation = [
     { name: "Your profile", href: "#" },
     { name: "Sign out", href: "" },
@@ -76,8 +86,10 @@ const AdminLayout = (props) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    const parsedUserData = JSON.parse(localStorage.getItem("user"));
+    const role = parsedUserData && parsedUserData.data.role;
     localStorage.removeItem("user");
-    navigate("/login");
+    navigate(`/login/${role}`);
   };
 
   function classNames(...classes) {
@@ -86,7 +98,11 @@ const AdminLayout = (props) => {
 
   const updateNavigation = (index) => {
     const updatedNavigation = navigation.map((item, i) => {
-      if (i === index) {
+      if (item.href === window.location.pathname) {
+        console.log("path printing:", window.location.pathname);
+
+        console.log("Item in navigation:", item);
+
         return { ...item, current: true };
       } else {
         return { ...item, current: false };
@@ -195,7 +211,7 @@ const AdminLayout = (props) => {
                             ))}
                           </ul>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="text-xs font-bold leading-6 text-indigo-200">
                             Your teams
                           </div>
@@ -219,7 +235,7 @@ const AdminLayout = (props) => {
                               </li>
                             ))}
                           </ul>
-                        </li>
+                        </li> */}
                         <li className="mt-auto">
                           <a
                             href="/"
@@ -262,7 +278,7 @@ const AdminLayout = (props) => {
                         <a
                           href={item.href}
                           className={classNames(
-                            item.current
+                            item.href === window.location.pathname
                               ? "bg-pink-700 text-white"
                               : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-bold"
@@ -284,7 +300,7 @@ const AdminLayout = (props) => {
                     ))}
                   </ul>
                 </li>
-                <li>
+                {/* <li>
                   <div className="text-xs font-bold leading-6 text-indigo-200">
                     Your teams
                   </div>
@@ -308,7 +324,7 @@ const AdminLayout = (props) => {
                       </li>
                     ))}
                   </ul>
-                </li>
+                </li> */}
                 <li className="mt-auto">
                   <a
                     href="/"
@@ -363,7 +379,7 @@ const AdminLayout = (props) => {
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button
                   type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-800"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -389,7 +405,8 @@ const AdminLayout = (props) => {
                         className="ml-4 text-sm font-bold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        Hammad Mukhtar{" "}
+                        {loggedInUser}
+                        {` (${role})`}{" "}
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"

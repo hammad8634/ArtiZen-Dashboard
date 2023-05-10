@@ -56,7 +56,7 @@ function StoreTable() {
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-0 ">
                 <table className="min-w-full divide-y divide-gray-300 text-center">
-                  <thead className="bg-blue-500">
+                  <thead className="bg-gray-500">
                     <tr>
                       <th
                         scope="col"
@@ -110,7 +110,7 @@ function StoreTable() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white divide-x border_set  ">
+                  <tbody className="divide-y divide-gray-200 bg-white divide-x border_set ">
                     {stores.map((store, index) => (
                       <tr
                         key={store._id}
@@ -119,23 +119,23 @@ function StoreTable() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900 divide-x border_set">
                           {index + 1}
                         </td>
-                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 divide-x border_set">
+                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-900 sm:pl-0 divide-x border_set">
                           {store.name}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900 divide-x border_set">
                           {/* <img src= alt={store.name} />{" "} */}
                           {store.photo}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {store.category}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {/* {store.quantity} */}Testing
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {store.owner?.name}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {store.location?.address}
                         </td>
 
@@ -143,7 +143,7 @@ function StoreTable() {
                           {/* <button
                       variant="primary"
                       onClick={() => handleEdit(store._id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                     >
                       Edit
                     </button> */}

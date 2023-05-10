@@ -22,13 +22,14 @@ function BuyerTable() {
     axios
       .delete(`http://localhost:8000/api/v1/buyer/delete/${_id}`)
       .then(() => {
-        const updatedBuyers = buyers.filter((user) => user._id !== _id);
-        setBuyers(updatedBuyers);
+        const updatedProducts = buyers.filter((buyer) => buyer._id !== _id);
+        setBuyers(updatedProducts);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(`Errrrrrrrrrrrr: ${error}`));
   };
 
   console.log("Buyers: ", buyers);
+
   return (
     <AdminLayout>
       <section id="buyers-table">
@@ -56,7 +57,7 @@ function BuyerTable() {
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-0">
                 <table className="min-w-full divide-y divide-gray-300 text-center">
-                  <thead className="bg-blue-500">
+                  <thead className="bg-gray-500">
                     <tr>
                       <th
                         scope="col"
@@ -96,7 +97,7 @@ function BuyerTable() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white divide-x border_set  ">
+                  <tbody className="divide-y divide-gray-200 bg-white divide-x border_set ">
                     {buyers.map((buyer, index) => (
                       <tr
                         key={buyer._id}
@@ -105,16 +106,16 @@ function BuyerTable() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900 divide-x border_set">
                           {index + 1}
                         </td>
-                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 divide-x border_set">
+                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-800 sm:pl-0 divide-x border_set">
                           {buyer.name}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {buyer.email}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {buyer.phoneNumber}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {buyer.role}
                         </td>
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">

@@ -3,23 +3,19 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import BuyerTable from "./Components/Pages/buyerTable";
 import ChatPage from "./Components/Pages/chatPage";
-import LoginPage from "./Components/Pages/loginPage";
+import OrderTable from "./Components/Pages/orderPage";
 import ProductTable from "./Components/Pages/productTable";
 import SellerTable from "./Components/Pages/sellerTable";
 import Sidebar from "./Components/Pages/sidebar";
 import StoreTable from "./Components/Pages/storeTable";
+import LoginWrapper from "./Components/PrivateComponents/LoginWrapper";
 import PrivateComponent from "./Components/PrivateComponents/PrivateComponent";
-// import AdminLayout from "./Components/layouts/AdminLayout";
-import OrderTable from "./Components/Pages/orderPage";
 import "./tailwind.css";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <p>Dashboard</p> */}
-        {/* <Sidebar /> */}
-        {/* <BrowserRouter basename={"/"}> */}
         <Routes>
           <Route element={<PrivateComponent />}>
             <Route path="/dashboard" element={<Sidebar />} />
@@ -32,8 +28,9 @@ function App() {
             <Route path="/orderPage" element={<OrderTable />} />
             <Route path="/logout" element={<h2>Logout Component</h2>} />
           </Route>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login/admin" element={<LoginWrapper />} />
+          <Route path="/login/seller" element={<LoginWrapper />} />
+          <Route path="/" element={<LoginWrapper />} />
         </Routes>
         {/* </BrowserRouter> */}
       </header>

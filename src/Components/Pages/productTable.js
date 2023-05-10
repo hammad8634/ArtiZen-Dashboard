@@ -59,7 +59,7 @@ function ProductTable() {
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-0 ">
                 <table className="min-w-full divide-y divide-gray-300 text-center">
-                  <thead className="bg-blue-500">
+                  <thead className="bg-gray-500">
                     <tr>
                       <th
                         scope="col"
@@ -147,32 +147,32 @@ function ProductTable() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900 divide-x border_set ">
                           {index + 1}
                         </td>
-                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 divide-x border_set">
+                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-800 sm:pl-0 divide-x border_set">
                           {product.productName}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900 divide-x border_set">
                           <img src={product.photos} alt={product.productName} />{" "}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
-                          {product.ratingAvg}
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
+                          {product.ratingsAverage}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.category}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.quantity}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.soldItems}
                         </td>
 
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.originalPrice}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.owner?.name}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.store?.name}
                         </td>
 
@@ -180,7 +180,7 @@ function ProductTable() {
                           {/* <button
                         variant="primary"
                         onClick={() => handleEdit(product._id)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                       >
                         Edit
                       </button> */}

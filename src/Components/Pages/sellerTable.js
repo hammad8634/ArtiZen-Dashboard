@@ -3,6 +3,11 @@ import React, { useEffect, useState } from "react";
 import AdminLayout from "../layouts/AdminLayout";
 
 function SellerTable() {
+  const parsedUserData = JSON.parse(localStorage.getItem("user"));
+  const role = parsedUserData && parsedUserData.data.role;
+
+  console.log(`Role in Seller Table is: --- ${role}\n`);
+
   const [sellers, setSellers] = useState([]);
 
   useEffect(() => {
@@ -15,8 +20,7 @@ function SellerTable() {
       .catch((error) => console.log(error));
   }, []);
 
-  // const handleEdit = (_id) => {
-  // };
+  const handleEdit = (_id) => {};
 
   const handleDelete = (_id) => {
     axios
@@ -56,7 +60,7 @@ function SellerTable() {
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-0 ">
                 <table className="min-w-full divide-y divide-gray-300 text-center">
-                  <thead className="bg-blue-500">
+                  <thead className="bg-gray-500">
                     <tr>
                       <th
                         scope="col"
@@ -119,32 +123,33 @@ function SellerTable() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900 divide-x border_set">
                           {index + 1}
                         </td>
-                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 divide-x border_set">
+                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-800 sm:pl-0 divide-x border_set">
                           {seller.name}
                         </td>
 
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {seller.email}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {seller.phoneNumber}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {seller.cnic}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 divide-x border_set">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {seller.role}
                         </td>
 
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">
-                          {/* <button
-                        variant="primary"
-                        onClick={() => handleEdit(seller._id)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        Edit
-                      </button> */}
-                          {""}
+                          {role === "seller" && (
+                            <button
+                              variant="primary"
+                              onClick={() => handleEdit(seller._id)}
+                              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                              Edit
+                            </button>
+                          )}{" "}
                           <button
                             onClick={() => handleDelete(seller._id)}
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

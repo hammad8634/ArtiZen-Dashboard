@@ -18,7 +18,7 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -32,8 +32,19 @@ import SellerTable from "./sellerTable";
 import StoreTable from "./storeTable";
 
 const Sidebar = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const parsedUserData = JSON.parse(localStorage.getItem("user"));
+  const role = parsedUserData && parsedUserData.data.role;
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(`User is: --- ${user}`);
+    if (user && user.status === "success") {
+      setLoggedInUser(user.data.name);
+      console.log("User Name: " + user.data.name);
+    }
+  }, []);
   const [navigation, setNavigation] = useState([
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
     { name: "Buyers", href: "/buyerTable", icon: UsersIcon, current: false },
@@ -44,13 +55,13 @@ const Sidebar = ({ children }) => {
       icon: BuildingStorefrontIcon,
       current: false,
     },
-    {
-      name: "Chats",
-      href: "/chatPage",
-      icon: ChatBubbleBottomCenterTextIcon,
+    // {
+    //   name: "Chats",
+    //   href: "/chatPage",
+    //   icon: ChatBubbleBottomCenterTextIcon,
 
-      current: false,
-    },
+    //   current: false,
+    // },
     {
       name: "Orders",
       href: "/orderPage",
@@ -65,10 +76,10 @@ const Sidebar = ({ children }) => {
       current: false,
     },
   ]);
-  const teams = [
-    { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-    { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  ];
+  // const teams = [
+  //   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
+  //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+  // ];
   const userNavigation = [
     { name: "Your profile", href: "#" },
     { name: "Sign out", href: "" },
@@ -76,8 +87,10 @@ const Sidebar = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    const parsedUserData = JSON.parse(localStorage.getItem("user"));
+    const role = parsedUserData && parsedUserData.data.role;
     localStorage.removeItem("user");
-    navigate("/login");
+    navigate(`/login/${role}`);
   };
 
   function classNames(...classes) {
@@ -195,9 +208,9 @@ const Sidebar = ({ children }) => {
                             ))}
                           </ul>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="text-xs font-bold leading-6 text-indigo-200">
-                            Your teams
+                            Your team
                           </div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
@@ -219,7 +232,7 @@ const Sidebar = ({ children }) => {
                               </li>
                             ))}
                           </ul>
-                        </li>
+                        </li> */}
                         <li className="mt-auto">
                           <a
                             href="/"
@@ -284,9 +297,9 @@ const Sidebar = ({ children }) => {
                     ))}
                   </ul>
                 </li>
-                <li>
+                {/* <li>
                   <div className="text-xs font-bold leading-6 text-indigo-200">
-                    Your teams
+                    Your team
                   </div>
                   <ul role="list" className="-mx-3 mt-3 space-y-1">
                     {teams.map((team) => (
@@ -308,7 +321,7 @@ const Sidebar = ({ children }) => {
                       </li>
                     ))}
                   </ul>
-                </li>
+                </li> */}
                 <li className="mt-auto">
                   <a
                     href="/"
@@ -363,7 +376,7 @@ const Sidebar = ({ children }) => {
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button
                   type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-800"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -389,7 +402,8 @@ const Sidebar = ({ children }) => {
                         className="ml-4 text-sm font-bold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        Hammad Mukhtar{" "}
+                        {loggedInUser}
+                        {` (${role})`}{" "}
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"
