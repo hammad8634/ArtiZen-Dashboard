@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import AdminLayout from "./../layouts/AdminLayout";
+import AdminLayout from "../layouts/AdminLayout";
 
 function BuyerTable() {
   const [buyers, setBuyers] = useState([]);

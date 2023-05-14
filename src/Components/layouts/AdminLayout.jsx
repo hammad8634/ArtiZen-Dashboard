@@ -19,11 +19,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserIcon from "../../images/userIcon.png";
 // import BuyerTable from "./buyerTable";
 // import ChatPage from "./chatPage";

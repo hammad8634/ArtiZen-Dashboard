@@ -31,11 +31,12 @@ const LoginPage = ({ apiLink }) => {
     });
 
     result = await result.json();
-    console.warn("Result", result);
+    console.warn("Result=====", result);
 
     if (result.status === "success") {
-      // const userId = result.data.data.user._id;
-      // console.warn("User Id: " + userId);
+      const user_id = result.data._id;
+      console.log(`User id is: --- ${user_id}`);
+
       localStorage.setItem("user", JSON.stringify(result));
       navigate("/productstable");
     } else if (result.message === "Account or password is not entered") {
@@ -50,13 +51,8 @@ const LoginPage = ({ apiLink }) => {
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <img
-                className="h-12 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
               <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-                Sign in to your account
+                Log In to your account
               </h2>
             </div>
 
@@ -64,7 +60,7 @@ const LoginPage = ({ apiLink }) => {
               <div>
                 <div>
                   <p className="text-sm font-medium leading-6 text-gray-900">
-                    Sign in with:
+                    Log In with:
                   </p>
 
                   <div className="mt-2 grid grid-cols-2 gap-2">
@@ -73,7 +69,7 @@ const LoginPage = ({ apiLink }) => {
                         href="https://www.facebook.com/login/"
                         className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
                       >
-                        <span className="sr-only">Sign in with Facebook</span>
+                        <span className="sr-only">Log In with Facebook</span>
                         <svg
                           className="h-7 w-7"
                           aria-hidden="true"
@@ -90,7 +86,7 @@ const LoginPage = ({ apiLink }) => {
                         href="https://accounts.google.com/v3/signin/identifier?dsh=S-1005734133%3A1683586203890348&authuser=0&continue=http%3A%2F%2Fsupport.google.com%2Fmail%2Fanswer%2F8494%3Fhl%3Den%26co%3DGENIE.Platform%253DDesktop&ec=GAlAdQ&hl=en&flowName=GlifWebSignIn&flowEntry=AddSession"
                         className="inline-flex w-full justify-center rounded-md bg-white px-5 py-2 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
                       >
-                        <span className="sr-only">Sign in with Google</span>
+                        <span className="sr-only">Log In with Google</span>
                         <svg
                           className="h-7 w-7"
                           aria-hidden="true"
@@ -150,7 +146,6 @@ const LoginPage = ({ apiLink }) => {
                       />
                     </div>
                   </div>
-
                   <div className="space-y-1">
                     <label
                       htmlFor="password"
@@ -174,7 +169,6 @@ const LoginPage = ({ apiLink }) => {
                       />
                     </div>
                   </div>
-
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input
@@ -193,23 +187,32 @@ const LoginPage = ({ apiLink }) => {
 
                     <div className="text-sm">
                       <a
-                        href="#"
+                        href="/forgotpassword"
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                       >
                         Forgot your password?
                       </a>
                     </div>
                   </div>
-
                   <div>
                     <button
                       type="submit"
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       onClick={handleLogin}
                     >
-                      Sign in
+                      Log In
                     </button>
-                  </div>
+                  </div>{" "}
+                  <p className="text-sm  ">
+                    Don't have an account?{" "}
+                    <a
+                      href="#"
+                      className="font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                      {" "}
+                      <span className="font-semibold ">Sign Up here</span>
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>
