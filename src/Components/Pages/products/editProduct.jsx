@@ -1,39 +1,66 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
-import AdminLayout from "../layouts/AdminLayout";
+import AdminLayout from "../../layouts/AdminLayout";
 
-const CreateProductPage = () => {
+const EditProductPage = () => {
+  const { id } = useParams();
   const user_info = JSON.parse(localStorage.getItem("user"));
   const user_token = user_info.token;
 
   const [productName, setProductName] = useState("");
   const [productImages, setProductImages] = useState([]);
-  const [video, setVideo] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
   const [salePrice, setSalePrice] = useState("");
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [colors, setColors] = useState([]);
   const [description, setDescription] = useState("");
 
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
-  const handleCreateProduct = async (e) => {
+  useEffect(() => {
+    fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/product/one/${id}`
+      );
+      const product = response.data;
+      console.log("data is ", response.data);
+
+      setProductName(product.data.productName);
+      setProductImages(product.data.productImages);
+      setOriginalPrice(product.data.originalPrice);
+      setSalePrice(product.data.salePrice);
+      setCategory(product.data.category);
+      setQuantity(product.data.quantity);
+      setColors(product.data.colors);
+      setDescription(product.data.description);
+
+      document.getElementById("productName").value = product.data.productName;
+      console.log("product name is " + product.data.productName);
+    } catch (error) {
+      console.error("API error:", error);
+      // Handle error
+    }
+  };
+
+  const handleEditProduct = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("productName", productName);
-    // productImages.forEach((image, index) => {
-    //   formData.append(`productImages[${index}]`, image);
-    // });
 
     Object.values(productImages).forEach((productImg) => {
       formData.append("productImages", productImg);
     });
 
-    formData.append("video", video);
     formData.append("originalPrice", originalPrice);
     formData.append("salePrice", salePrice);
     formData.append("category", category);
@@ -44,8 +71,8 @@ const CreateProductPage = () => {
     formData.append("description", description);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/product/create",
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/product/update/${id}`,
         formData,
         {
           headers: {
@@ -55,23 +82,22 @@ const CreateProductPage = () => {
         }
       );
 
-      console.log(`Console after API: ${response.data}`);
-      if (response.status === 201) {
-        console.log("Product created successfully");
-        alert("Product created successfully");
+      if (response.status === 200) {
+        console.log("Product updated successfully");
+        console.log(`response of data for updated api is: ${JSON.stringify(response)}`);
+        alert("Product updated successfully");
         // navigate("/productstable");
       } else {
-        console.log("Product creation failed");
-        alert("Product creation failed");
+        console.log("Product update failed");
+        alert("Product update failed");
       }
     } catch (error) {
-      console.error(`API error: ${error}`);
+      console.error("API error:", error);
       // Handle error
     }
   };
 
   const onChanges = (e) => {
-    console.log("Value of e.target.files is: " + e.target.files);
     setProductImages(e.target.files);
   };
 
@@ -90,10 +116,11 @@ const CreateProductPage = () => {
     { value: "utils", label: "Utils" },
     { value: "handmade", label: "Hand Made" },
   ];
+
   const handleColorChange = (selectedOptions) => {
-    console.log("Selected Options:", selectedOptions);
-    const selectedValues = selectedOptions.map((option) => option.value);
-    console.log("Selected Values:", selectedValues);
+    const selectedValues = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
     setColors(selectedValues);
   };
 
@@ -102,18 +129,15 @@ const CreateProductPage = () => {
     const selectedOptionObj = categoryOptions.find(
       (option) => option.value === selectedValue
     );
-  
-    console.log("Selected Category:", selectedOptionObj);
     setCategory(selectedOptionObj.label);
   };
-  
 
   return (
     <AdminLayout>
-      <div className="flex justify-center  bg-gray-200 text-sm">
+      <div className="flex justify-center bg-gray-200 text-sm">
         <div className="w-full max-w-8xl bg-white shadow-md rounded-lg">
           <div className="mb-3 mt bg-gray-100 p-10">
-            <h2 className="text-2xl font-medium mb-6">Create Product</h2>
+            <h2 className="text-2xl font-medium mb-6">Edit Product</h2>
             <div className="flex mb-8">
               <div className="w-1/2 pr-2">
                 <label htmlFor="productName" className="block mb-2">
@@ -144,7 +168,7 @@ const CreateProductPage = () => {
                 />
               </div>
             </div>
-            <div className="mb-8">
+            {/* <div className="mb-8">
               <label className="block mb-2">Uploaded Images</label>
               {productImages.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
@@ -153,10 +177,10 @@ const CreateProductPage = () => {
                       <img
                         src={URL.createObjectURL(image)}
                         alt={`img ${index + 1}`}
-                        className="w-50 h-40 object-cover rounded-lg  "
+                        className="w-50 h-40 object-cover rounded-lg"
                       />
                       <button
-                        className="absolute top-0 right-0 pl-1 pr-1 bg-red-500 text-white rounded-lg hover:bg-red-600 "
+                        className="absolute top-0 right-0 pl-1 pr-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
                         onClick={() => handleRemoveImage(index)}
                       >
                         X
@@ -167,36 +191,7 @@ const CreateProductPage = () => {
               ) : (
                 <p>No images uploaded.</p>
               )}
-            </div>
-
-            <div className="flex mb-8">
-              <div className="w-1/2 pr-2">
-                <label htmlFor="video" className="block mb-2">
-                  Product Video
-                </label>
-                <input
-                  type="text"
-                  id="video"
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  required
-                  value={video}
-                  onChange={(e) => setVideo(e.target.value)}
-                />
-              </div>
-              <div className="w-1/2 pl-2">
-                <label htmlFor="quantity" className="block mb-2">
-                  Quantity
-                </label>
-                <input
-                  type="text"
-                  id="quantity"
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  required
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-              </div>
-            </div>
+            </div> */}
             <div className="flex mb-8">
               <div className="w-1/2 pr-2">
                 <label htmlFor="originalPrice" className="block mb-2">
@@ -234,7 +229,11 @@ const CreateProductPage = () => {
                   id="category"
                   options={categoryOptions}
                   required
-                  value={category.value}
+                  value={
+                    category
+                      ? { value: category.toLowerCase(), label: category }
+                      : null
+                  }
                   onChange={handleCategoryChange}
                 />
               </div>
@@ -253,7 +252,23 @@ const CreateProductPage = () => {
                     )}
                     onChange={handleColorChange}
                   />
+                  
                 </div>
+              </div>
+            </div>
+            <div className="flex mb-8">
+              <div className="w-1/2 pr-2">
+                <label htmlFor="quantity" className="block mb-2">
+                  Quantity
+                </label>
+                <input
+                  type="text"
+                  id="quantity"
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  required
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                />
               </div>
             </div>
             <div className="mb-8">
@@ -273,9 +288,9 @@ const CreateProductPage = () => {
               <button
                 type="button"
                 className="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-500"
-                onClick={handleCreateProduct}
+                onClick={handleEditProduct}
               >
-                Create Product
+                Edit Product
               </button>
             </div>
           </div>
@@ -285,4 +300,4 @@ const CreateProductPage = () => {
   );
 };
 
-export default CreateProductPage;
+export default EditProductPage;

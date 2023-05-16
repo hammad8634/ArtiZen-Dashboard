@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import LoginPage from "../Pages/loginPage";
+import LoginPage from "../Pages/authentication/loginPage";
 
 const LoginWrapper = () => {
   const location = useLocation();

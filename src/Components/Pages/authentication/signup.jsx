@@ -20,7 +20,7 @@ const SignUpPage = ({ apiLink }) => {
       passwordConfirm,
     };
 
-    let result = await fetch(`${apiLink}/signup`, {
+    let result = await fetch(`${apiLink}/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

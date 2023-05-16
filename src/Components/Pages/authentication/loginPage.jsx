@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FacebookIcon from "../../images/fbIcon.png";
-import MailIcon from "../../images/googleIcon.png";
+import FacebookIcon from "../../../images/fbIcon.png";
+import MailIcon from "../../../images/googleIcon.png";
 
 const LoginPage = ({ apiLink }) => {
   const [email, setEmail] = useState("");

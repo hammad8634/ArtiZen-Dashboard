@@ -2,8 +2,8 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../App.css";
-import AdminLayout from "../layouts/AdminLayout";
+import "../../../App.css";
+import AdminLayout from "../../layouts/AdminLayout";
 
 function ProductTable() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function ProductTable() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/product/seller/all`, {
+      .get(`http://localhost:8000/api/v1/product/all`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user_info.token,
@@ -30,7 +30,12 @@ function ProductTable() {
       .catch((error) => console.log(`user id ${user_id} and error: ${error}`));
   }, [user_id, user_info.token]);
 
-  const handleEdit = (_id) => {};
+  const handleEdit = (_id) => {
+    navigate(`/editproduct/${_id}`);
+    console.log(
+      `Product ID in product table edit option is: id =========== ${_id} `
+    );
+  };
 
   const handleDelete = (_id) => {
     axios
@@ -117,12 +122,7 @@ function ProductTable() {
                       >
                         Quantity
                       </th>
-                      <th
-                        scope="col"
-                        className="text-center whitespace-nowrap   text-left text-sm font-bold text-gray-900 divide-x border_set  "
-                      >
-                        Sold Items
-                      </th>
+
                       <th
                         scope="col"
                         className="text-center whitespace-nowrap   text-left text-sm font-bold text-gray-900 divide-x border_set  "
@@ -155,13 +155,6 @@ function ProductTable() {
                       >
                         Action{" "}
                       </th>
-
-                      {/* <th
-                    scope="col"
-                    className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0"
-                  >
-                    <span className="sr-only">Edit</span>
-                  </th> */}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white divide-x border_set  ">
@@ -192,19 +185,6 @@ function ProductTable() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {product.category}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
-                          {product.quantity}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
-                          {product.salePrice}
-                        </td>
-
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
-                          {product.originalPrice}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
-                          {product.salePrice}
-                        </td>
                         <td className="whitespace-nowrap w-8 h-8  text-sm text-gray-900 divide-x border_set">
                           {product.colors.map((color, colorIndex) => (
                             <div
@@ -224,6 +204,17 @@ function ProductTable() {
                               )}
                             </div>
                           ))}
+                        </td>
+
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
+                          {product.quantity}
+                        </td>
+
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
+                          {product.originalPrice}
+                        </td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
+                          {product.salePrice}
                         </td>
 
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">

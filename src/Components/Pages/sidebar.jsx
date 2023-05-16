@@ -27,7 +27,7 @@ import {
 import UserIcon from "../../images/userIcon.png";
 import BuyerTable from "./buyerTable";
 import ChatPage from "./chatPage";
-import ProductTable from "./productTable";
+import ProductTable from "./products/productTable";
 import SellerTable from "./sellerTable";
 import StoreTable from "./storeTable";
 
