@@ -80,15 +80,20 @@ const CreateProductPage = () => {
   };
 
   const colorOptions = [
+    { value: null, label: "None" },
     { value: "red", label: "Red" },
     { value: "blue", label: "Blue" },
     { value: "green", label: "Green" },
+    { value: "orange", label: "Orange" },
+    { value: "black", label: "Black" },
+    { value: "white", label: "White" },
   ];
 
   const categoryOptions = [
     { value: "cloth", label: "Cloth" },
     { value: "utils", label: "Utils" },
     { value: "handmade", label: "Hand Made" },
+    { value: "antique", label: "Antique" },
   ];
   const handleColorChange = (selectedOptions) => {
     console.log("Selected Options:", selectedOptions);
