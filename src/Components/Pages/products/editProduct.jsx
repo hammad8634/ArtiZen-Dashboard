@@ -17,7 +17,7 @@ const EditProductPage = () => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [colors, setColors] = useState([]);
-  const [description, setDescription] = useState("");
+  const [Description, setDescription] = useState("");
 
   //   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const EditProductPage = () => {
       setCategory(product.data.category);
       setQuantity(product.data.quantity);
       setColors(product.data.colors);
-      setDescription(product.data.description);
+      setDescription(product.data.Description);
 
       document.getElementById("productName").value = product.data.productName;
       console.log("product name is " + product.data.productName);
@@ -68,7 +68,7 @@ const EditProductPage = () => {
     colors.forEach((color, index) => {
       formData.append(`colors[${index}]`, color);
     });
-    formData.append("description", description);
+    formData.append("description", Description);
 
     try {
       const response = await axios.patch(
@@ -84,7 +84,9 @@ const EditProductPage = () => {
 
       if (response.status === 200) {
         console.log("Product updated successfully");
-        console.log(`response of data for updated api is: ${JSON.stringify(response)}`);
+        console.log(
+          `response of data for updated api is: ${JSON.stringify(response)}`
+        );
         alert("Product updated successfully");
         // navigate("/productstable");
       } else {
@@ -252,7 +254,6 @@ const EditProductPage = () => {
                     )}
                     onChange={handleColorChange}
                   />
-                  
                 </div>
               </div>
             </div>
@@ -279,7 +280,7 @@ const EditProductPage = () => {
                 id="description"
                 className="w-full p-2 border border-gray-300 rounded-lg"
                 required
-                value={description}
+                value={Description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
               />
