@@ -17,7 +17,7 @@ const EditProductPage = () => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [colors, setColors] = useState([]);
-  const [Description, setDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   //   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const EditProductPage = () => {
       setCategory(product.data.category);
       setQuantity(product.data.quantity);
       setColors(product.data.colors);
-      setDescription(product.data.Description);
+      setDescription(product.data.description);
 
       document.getElementById("productName").value = product.data.productName;
       console.log("product name is " + product.data.productName);
@@ -68,7 +68,7 @@ const EditProductPage = () => {
     colors.forEach((color, index) => {
       formData.append(`colors[${index}]`, color);
     });
-    formData.append("description", Description);
+    formData.append("description", description);
 
     try {
       const response = await axios.patch(
@@ -280,7 +280,7 @@ const EditProductPage = () => {
                 id="description"
                 className="w-full p-2 border border-gray-300 rounded-lg"
                 required
-                value={Description}
+                value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
               />

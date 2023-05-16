@@ -10,7 +10,7 @@ const CreateProductPage = () => {
   const [salePrice, setSalePrice] = useState("");
   const [category, setCategory] = useState("");
   const [colors, setColors] = useState([]);
-  const [Description, setDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleCreateProduct = async () => {
     if (productImages.length < 3 || productImages.length > 7) {
@@ -29,7 +29,7 @@ const CreateProductPage = () => {
       salePrice,
       category,
       colors,
-      Description,
+      description,
     };
 
     try {
@@ -249,7 +249,7 @@ const CreateProductPage = () => {
               id="description"
               className="w-full p-2 border border-gray-300 rounded-lg"
               required
-              value={Description}
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
             />

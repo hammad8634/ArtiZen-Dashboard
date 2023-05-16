@@ -16,7 +16,7 @@ const CreateProductPage = () => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [colors, setColors] = useState([]);
-  const [Description, setDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const CreateProductPage = () => {
     colors.forEach((color, index) => {
       formData.append(`colors[${index}]`, color);
     });
-    formData.append("description", Description);
+    formData.append("description", description);
 
     try {
       const response = await axios.post(
@@ -263,7 +263,7 @@ const CreateProductPage = () => {
                 id="description"
                 className="w-full p-2 border border-gray-300 rounded-lg"
                 required
-                value={Description}
+                value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
               />
