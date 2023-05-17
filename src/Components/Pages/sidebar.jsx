@@ -13,7 +13,9 @@ import {
   ChatBubbleBottomCenterTextIcon,
   Cog6ToothIcon,
   FolderIcon,
+  FolderOpenIcon,
   HomeIcon,
+  PencilSquareIcon,
   ShoppingCartIcon,
   UsersIcon,
   XMarkIcon,
@@ -30,6 +32,7 @@ import ChatPage from "./chatPage";
 import ProductTable from "./products/productTable";
 import SellerTable from "./sellerTable";
 import StoreTable from "./storeTable";
+import logo from "../../images/logo.png";
 
 const Sidebar = ({ children }) => {
   const parsedUserData = JSON.parse(localStorage.getItem("user"));
@@ -37,6 +40,8 @@ const Sidebar = ({ children }) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [navigationUpdated, setNavigationUpdated] = useState(false);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(`User is: --- ${user}`);
@@ -75,7 +80,27 @@ const Sidebar = ({ children }) => {
       icon: FolderIcon,
       current: false,
     },
+    {
+      name: "Stores",
+      href: "/storeTable",
+      icon: PencilSquareIcon,
+      current: false,
+    },
   ]);
+
+  useEffect(() => {
+    if (role === "seller" && !navigationUpdated) {
+      const updatedNavigation = navigation.filter(
+        (item) =>
+          item.name !== "Buyers" &&
+          item.name !== "Stores List" &&
+          item.name !== "Sellers"
+      );
+      setNavigation(updatedNavigation);
+      setNavigationUpdated(true);
+    }
+  }, [role, navigationUpdated, navigation]);
+
   // const teams = [
   //   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
   //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
@@ -233,18 +258,21 @@ const Sidebar = ({ children }) => {
                             ))}
                           </ul>
                         </li> */}
-                        <li className="mt-auto">
-                          <a
-                            href="/"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
-                        </li>
+
+                        {role !== "admin " && (
+                          <li className="mt-auto">
+                            <a
+                              href="/createProduct"
+                              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                            >
+                              <FolderOpenIcon
+                                className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
+                                aria-hidden="true"
+                              />
+                              Create Product
+                            </a>
+                          </li>
+                        )}
                       </ul>
                     </nav>
                   </div>
@@ -259,12 +287,7 @@ const Sidebar = ({ children }) => {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              ArtiZen{" "}
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                alt="Your Company"
-              />
+              <img className="h-32 w-26" src={logo} alt="Your Company" />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -322,17 +345,20 @@ const Sidebar = ({ children }) => {
                     ))}
                   </ul>
                 </li> */}
-                <li className="mt-auto">
-                  <a
-                    href="/"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                  >
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                      aria-hidden="true"
-                    />
-                    Settings
-                  </a>
+                <li className="mt-40">
+                  {role !== "admin" && (
+                    <button
+                      type="button"
+                      className="flex items-center group -mx-2 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                      onClick={() => navigate("/createProduct")}
+                    >
+                      <FolderOpenIcon
+                        className="h-5 w-5 mr-2"
+                        aria-hidden="true"
+                      />
+                      <span>Create Product</span>
+                    </button>
+                  )}
                 </li>
               </ul>
             </nav>

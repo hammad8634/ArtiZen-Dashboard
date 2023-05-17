@@ -33,6 +33,23 @@ function SellerTable() {
   };
 
   console.log("sellers: ", sellers);
+
+  const handleChangeStatus = (_id, newStatus) => {
+    axios
+      .patch(`http://localhost:8000/api/v1/seller/update/${_id}`, {
+        isVerified: newStatus,
+      })
+      .then(() => {
+        const updatedBuyers = sellers.map((seller) => {
+          if (seller._id === _id) {
+            return { ...seller, isVerified: newStatus };
+          }
+          return seller;
+        });
+        setSellers(updatedBuyers);
+      })
+      .catch((error) => console.log(`Errrrrrrrrrrrr: ${error}`));
+  };
   return (
     <AdminLayout>
       <section id="sellers-table">
@@ -41,20 +58,13 @@ function SellerTable() {
             <div className="sm:flex-auto">
               <p className="mt-2 text-sm text-gray-700"></p>
               <h1 className="text-base font-bold leading-6 text-gray-900">
-                Seller (Customers) Details
+                Seller Details
               </h1>
               <p className="mt-5 text-sm text-gray-700 text-center font-bold">
                 Total Sellers are: {sellers.length}
               </p>
             </div>
-            <div className="mt-2 sm:ml-16 sm:mt-0 sm:flex-none">
-              <button
-                type="button"
-                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-bold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Export
-              </button>
-            </div>
+            <div className="mt-2 sm:ml-16 sm:mt-0 sm:flex-none"></div>
           </div>
           <div className="mt-5 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -103,6 +113,18 @@ function SellerTable() {
                         scope="col"
                         className="text-center whitespace-nowrap px-2 py-3.5 text-left text-sm font-bold text-gray-900 divide-x border_set  "
                       >
+                        Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-center whitespace-nowrap px-2 py-3.5 text-left text-sm font-bold text-gray-900 divide-x border_set  "
+                      >
+                        Option
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-center whitespace-nowrap px-2 py-3.5 text-left text-sm font-bold text-gray-900 divide-x border_set  "
+                      >
                         Action{" "}
                       </th>
 
@@ -138,6 +160,21 @@ function SellerTable() {
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {seller.role}
+                        </td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
+                          {seller.isVerified ? "True" : "False"}
+                        </td>
+                        <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">
+                          <select
+                            value={seller.isVerified}
+                            onChange={(e) =>
+                              handleChangeStatus(seller._id, e.target.value)
+                            }
+                            className="bg-white text-gray-800 font-bold border border-gray-300 rounded px-2 py-1"
+                          >
+                            <option value={false}>False</option>
+                            <option value={true}>True</option>
+                          </select>
                         </td>
 
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">

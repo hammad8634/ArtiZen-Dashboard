@@ -13,13 +13,16 @@ import {
   ChatBubbleBottomCenterTextIcon,
   Cog6ToothIcon,
   FolderIcon,
+  FolderOpenIcon,
   HomeIcon,
+  PencilSquareIcon,
   ShoppingCartIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../images/logo.png";
 import UserIcon from "../../images/userIcon.png";
 // import BuyerTable from "./buyerTable";
 // import ChatPage from "./chatPage";
@@ -32,6 +35,8 @@ const AdminLayout = (props) => {
   const role = parsedUserData && parsedUserData.data.role;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [navigationUpdated, setNavigationUpdated] = useState(false);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(`User is: --- ${user}`);
@@ -70,7 +75,26 @@ const AdminLayout = (props) => {
 
       current: false,
     },
+    {
+      name: "Reviews",
+      href: "/reviewTable",
+      icon: PencilSquareIcon,
+      current: false,
+    },
   ]);
+  useEffect(() => {
+    if (role === "seller" && !navigationUpdated) {
+      const updatedNavigation = navigation.filter(
+        (item) =>
+          item.name !== "Buyers" &&
+          item.name !== "Stores" &&
+          item.name !== "Sellers"
+      );
+      setNavigation(updatedNavigation);
+      setNavigationUpdated(true);
+    }
+  }, [role, navigationUpdated, navigation]);
+
   // const teams = [
   //   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
   //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
@@ -232,18 +256,17 @@ const AdminLayout = (props) => {
                             ))}
                           </ul>
                         </li> */}
-                        <li className="mt-auto">
-                          <a
-                            href="/"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
-                        </li>
+                        {role !== "admin" && (
+                          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                            <button
+                              type="button"
+                              className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-bold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={() => navigate("/createProduct")}
+                            >
+                              Create Product
+                            </button>
+                          </div>
+                        )}
                       </ul>
                     </nav>
                   </div>
@@ -258,12 +281,8 @@ const AdminLayout = (props) => {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              ArtiZen{" "}
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                alt="Your Company"
-              />
+              {" "}
+              <img className="h-32 w-26" src={logo} alt="Your Company" />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -321,17 +340,20 @@ const AdminLayout = (props) => {
                     ))}
                   </ul>
                 </li> */}
-                <li className="mt-auto">
-                  <a
-                    href="/"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                  >
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                      aria-hidden="true"
-                    />
-                    Settings
-                  </a>
+                <li className="mt-40">
+                  {role !== "admin" && (
+                    <button
+                      type="button"
+                      className="flex items-center group -mx-2 rounded-md p-2 text-sm font-bold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                      onClick={() => navigate("/createProduct")}
+                    >
+                      <FolderOpenIcon
+                        className="h-5 w-5 mr-2"
+                        aria-hidden="true"
+                      />
+                      <span>Create Product</span>
+                    </button>
+                  )}
                 </li>
               </ul>
             </nav>

@@ -10,25 +10,51 @@ function ProductTable() {
 
   const user_info = JSON.parse(localStorage.getItem("user"));
   const user_id = user_info.data._id;
+  const user_role = user_info.data.role;
+  console.log(`user role: ${user_role}`);
+
   const [products, setProducts] = useState([]);
   useEffect(() => {
     console.log("user_id---------:", user_id);
   }, [user_id]);
 
+  // ...existing code...
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/v1/product/all`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + user_info.token,
-        },
-      })
-      .then((response) => {
-        console.log(`resssdf: ${response}`, response.data.product);
-        setProducts(response.data.product);
-      })
-      .catch((error) => console.log(`user id ${user_id} and error: ${error}`));
-  }, [user_id, user_info.token]);
+    if (user_role === "admin") {
+      axios
+        .get(`http://localhost:8000/api/v1/product/all`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + user_info.token,
+          },
+        })
+        .then((response) => {
+          console.log(`resssdf: ${response}`, response.data.product);
+          setProducts(response.data.product);
+        })
+        .catch((error) =>
+          console.log(`user id ${user_id} and error: ${error}`)
+        );
+    } else if (user_role === "seller") {
+      axios
+        .get(`http://localhost:8000/api/v1/product/seller/all/${user_id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + user_info.token,
+          },
+        })
+        .then((response) => {
+          console.log(`resssdf: ${response}`, response.data.product);
+          setProducts(response.data.product);
+        })
+        .catch((error) =>
+          console.log(`user id ${user_id} and error: ${error}`)
+        );
+    }
+  }, [user_id, user_info.token, user_role]);
+
+  // ...existing code...
 
   const handleEdit = (_id) => {
     navigate(`/editproduct/${_id}`);
@@ -64,15 +90,17 @@ function ProductTable() {
                 Total Products are: {products.length}
               </p>
             </div>
-            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-              <button
-                type="button"
-                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-bold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={() => navigate("/createProduct")}
-              >
-                Create Product
-              </button>
-            </div>
+            {user_role !== "admin" && (
+              <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                <button
+                  type="button"
+                  className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-bold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={() => navigate("/createProduct")}
+                >
+                  Create Product
+                </button>
+              </div>
+            )}
           </div>
           <div className="mt-8 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -225,14 +253,16 @@ function ProductTable() {
                         </td>
 
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">
-                          <button
-                            variant="primary"
-                            onClick={() => handleEdit(product._id)}
-                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold  rounded p-1"
-                          >
-                            <PencilSquareIcon className="h-4 w-5 inline-block " />
-                            {/* Edit icon */}
-                          </button>{" "}
+                          {user_role !== "admin" && (
+                            <button
+                              variant="primary"
+                              onClick={() => handleEdit(product._id)}
+                              className="bg-gray-500 hover:bg-gray-700 text-white font-bold rounded p-1"
+                            >
+                              <PencilSquareIcon className="h-4 w-5 inline-block " />
+                              {/* Edit icon */}
+                            </button>
+                          )}
                           <button
                             onClick={() => handleDelete(product._id)}
                             className="bg-red-500 hover:bg-red-700 text-white font-bold rounded p-1"

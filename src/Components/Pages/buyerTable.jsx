@@ -30,6 +30,22 @@ function BuyerTable() {
 
   console.log("Buyers: ", buyers);
 
+  const handleChangeStatus = (_id, newStatus) => {
+    axios
+      .patch(`http://localhost:8000/api/v1/buyer/update/${_id}`, {
+        isVerified: newStatus,
+      })
+      .then(() => {
+        const updatedBuyers = buyers.map((buyer) => {
+          if (buyer._id === _id) {
+            return { ...buyer, isVerified: newStatus };
+          }
+          return buyer;
+        });
+        setBuyers(updatedBuyers);
+      })
+      .catch((error) => console.log(`Errrrrrrrrrrrr: ${error}`));
+  };
   return (
     <AdminLayout>
       <section id="buyers-table">
@@ -44,14 +60,7 @@ function BuyerTable() {
                 Total Buyers are: {buyers.length}
               </p>
             </div>
-            <div className="mt-2 sm:ml-16 sm:mt-0 sm:flex-none">
-              <button
-                type="button"
-                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-bold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Export
-              </button>
-            </div>
+            <div className="mt-2 sm:ml-16 sm:mt-0 sm:flex-none"></div>
           </div>
           <div className="mt-5 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ">
@@ -93,6 +102,18 @@ function BuyerTable() {
                         scope="col"
                         className="text-center whitespace-nowrap px-2 py-3.5 text-left text-sm font-bold text-gray-900 divide-x border_set  "
                       >
+                        Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-center whitespace-nowrap px-2 py-3.5 text-left text-sm font-bold text-gray-900 divide-x border_set  "
+                      >
+                        Select
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-center whitespace-nowrap px-2 py-3.5 text-left text-sm font-bold text-gray-900 divide-x border_set  "
+                      >
                         Action
                       </th>
                     </tr>
@@ -118,6 +139,22 @@ function BuyerTable() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
                           {buyer.role}
                         </td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-800 divide-x border_set">
+                          {buyer.isVerified ? "True" : "False"}
+                        </td>
+                        <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">
+                          <select
+                            value={buyer.isVerified}
+                            onChange={(e) =>
+                              handleChangeStatus(buyer._id, e.target.value)
+                            }
+                            className="bg-white text-gray-800 font-bold border border-gray-300 rounded px-2 py-1"
+                          >
+                            <option value={false}>False</option>
+                            <option value={true}>True</option>
+                          </select>
+                        </td>
+
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-center text-sm font-medium sm:pr-0 divide-x border_set">
                           <button
                             onClick={() => handleDelete(buyer._id)}

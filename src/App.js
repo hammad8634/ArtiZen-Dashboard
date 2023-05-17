@@ -18,6 +18,7 @@ import StoreTable from "./Components/Pages/storeTable";
 import LoginWrapper from "./Components/PrivateComponents/LoginWrapper";
 import PrivateComponent from "./Components/PrivateComponents/PrivateComponent";
 import "./tailwind.css";
+import ReviewsTable from "./Components/Pages/products/reviewsTable";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/chatPage" element={<ChatPage />} />
             <Route path="/storeTable" element={<StoreTable />} />
             <Route path="/orderPage" element={<OrderTable />} />
+            <Route path="/reviewTable" element={<ReviewsTable />} />
             <Route path="/createProduct" element={<CreateProductPage />} />
             <Route path="/logout" element={<h2>Logout Component</h2>} />
           </Route>
